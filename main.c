@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "monty.h"
 
 /**
  * program_usage - checks if user passed in a file as a command line arguement
@@ -45,15 +46,10 @@ static FILE *open_file(char *path)
 int main(int ac, char **av)
 {
 	FILE *file;
-	char ch;
 
 	program_usage(ac);
 	file = open_file(av[1]);
-
-	do {
-		ch = fgetc(file);
-		printf("%c", ch);
-	} while (ch != EOF);
+	read_line(file);
 
 	fclose(file);
 
