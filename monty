@@ -31,6 +31,11 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-void read_line(FILE *);
+typedef struct queue_s
+{
+	char *line;
+	struct queue_s *prev;
+	struct queue_s *next;
+} queue_t;
 
 #endif /* monty_h */
