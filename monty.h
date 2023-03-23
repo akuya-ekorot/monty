@@ -38,4 +38,9 @@ typedef struct queue_s
 	struct queue_s *next;
 } queue_t;
 
+void enqueue(char *);
+void drive_enqueue(void);
+void print_queue(void);
+char *deque(void);
+
 #endif /* monty_h */
