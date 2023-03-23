@@ -39,7 +39,6 @@ typedef struct queue_s
 } queue_t;
 
 void enqueue(char *);
-void drive_enqueue(void);
 void print_queue(void);
 char *deque(void);
 

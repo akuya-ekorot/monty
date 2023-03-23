@@ -7,6 +7,9 @@ char *deque(void)
 {
 	char *line;
 
+	if (!queue_tail)
+		return (NULL);
+
 	line = queue_tail->line;
 	queue_tail = queue_tail->prev;
 
@@ -17,42 +20,16 @@ void enqueue(char *line)
 {
 	queue_t *new;
 	
-	if (!queue)
+	new = (queue_t *) malloc(sizeof(queue_t));
+	if (!new)
 	{
-		queue = malloc(sizeof(queue_t));
-		if (!queue)
-		{
-			fprintf(stderr, "Error: malloc failed\n");
-			exit(EXIT_FAILURE);
-		}
-
-		queue->line = line;
-		queue->next = NULL;
-		queue->prev = NULL;
-		queue_tail = queue;
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
 	}
-	else
-	{
-		new = malloc(sizeof(queue_t));
-		if (!new)
-		{
-			fprintf(stderr, "Error: malloc failed\n");
-			exit(EXIT_FAILURE);
-		}
 
-		new->line = line;
-		new->next = queue;
-		new->next->prev = new;
-		queue = new;
-	}
-}
-
-void drive_enqueue(void)
-{
-	enqueue("Hello\n");
-	enqueue("there\n");
-	enqueue("Akuya\n");
-	enqueue("Ekorot\n");
+	new->line = line;
+	new->next = queue;
+	queue = new;
 }
 
 void print_queue(void)
@@ -60,7 +37,6 @@ void print_queue(void)
 	queue_t *tmp;
 
 	tmp = queue;
-
 	while (tmp)
 	{
 		printf("%s", tmp->line);
