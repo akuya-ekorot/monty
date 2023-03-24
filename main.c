@@ -1,58 +1,45 @@
-#include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "externs.h"
 #include "monty.h"
 
-/**
- * program_usage - checks if user passed in a file as a command line arguement
- * @ac: number of command line arguements
- */
-static void program_usage(int ac)
+queue_t *queue = NULL;
+queue_t *queue_tail = NULL;
+
+int main(int ac, char **av)
 {
+	FILE *file;
+	char *line = NULL;
+	size_t n = 0;
+	int line_number = 0;
+	ssize_t nread;
+
+	/* usage */
 	if (ac != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-}
 
-/**
- * open_file - opens file passed in as a command line arguement
- * @path: file to path. part of av
- *
- * Return: file stream
- */
-static FILE *open_file(char *path)
-{
-	FILE *file;
-
-	file = fopen(path, "r");
-
-	if (file == NULL)
+	/* open file and add lines to queue */
+	file = fopen(av[1], "r");
+	if (!file)
 	{
-		fprintf(stderr, "Error: Can't open file %s\n", path);
+		fprintf(stderr, "Error: couldn't open file");
 		exit(EXIT_FAILURE);
 	}
 
-	return (file);
-}
+	while ((nread = getline(&line, &n, file)) != -1)
+	{
+		enqueue(line, ++line_number);
+		line = NULL;
+		n = 0;
+	}
 
-/**
- * main - entry point of the program. A monty interpreter
- * @ac: count of command line arguements
- * @av: list of command line arguements
- *
- * Return: Always EXIT_SUCCESS
- */
-int main(int ac, char **av)
-{
-	FILE *file;
-
-	program_usage(ac);
-	file = open_file(av[1]);
-	read_line(file);
-
+	interpret();
 	fclose(file);
+	line = NULL;
 
 	return (EXIT_SUCCESS);
 }
-
