@@ -31,6 +31,16 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct queue_s - doubly linked list representation of a stack (or queue)
+ * @line: string
+ * @line_number: integer
+ * @prev: points to the previous element of the stack (or queue)
+ * @next: points to the next element of the stack (or queue)
+ *
+ * Description: doubly linked list node structure
+ * for stack, queues, LIFO, FIFO
+ */
 typedef struct queue_s
 {
 	char *line;

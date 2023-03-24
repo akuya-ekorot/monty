@@ -4,9 +4,10 @@
 #include "monty.h"
 #include "externs.h"
 
-stack_t *values = NULL;
-stack_t *values_tail = NULL;
-
+/**
+ * print_stack - prints the values in stack
+ * @stack: head node of stack
+ */
 void print_stack(stack_t *stack)
 {
 	stack_t *curr;
@@ -21,6 +22,9 @@ void print_stack(stack_t *stack)
 	}
 }
 
+/**
+ * interpret - inteprets the lines in queue
+ */
 void interpret(void)
 {
 	int i = 0;
