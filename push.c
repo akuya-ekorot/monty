@@ -2,6 +2,12 @@
 #include "monty.h"
 #include "externs.h"
 
+/**
+ * push - implement push instruction. add values to stack
+ * @stack: pointer to linked list representation of stack.
+ * points to top node on stack
+ * @line_number: line number of instruction
+ */
 void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new;

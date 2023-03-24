@@ -4,9 +4,13 @@
 #include "externs.h"
 #include "monty.h"
 
-queue_t *queue = NULL;
-queue_t *queue_tail = NULL;
-
+/**
+ * main - monty bytecode interpreter
+ * @ac: number of command line arguements
+ * @av: list of command line arguements
+ *
+ * Return: EXIT_SUCCESS
+ */
 int main(int ac, char **av)
 {
 	FILE *file;
@@ -26,7 +30,7 @@ int main(int ac, char **av)
 	file = fopen(av[1], "r");
 	if (!file)
 	{
-		fprintf(stderr, "Error: couldn't open file");
+		fprintf(stderr, "Error: Can't open file %s", av[1]);
 		exit(EXIT_FAILURE);
 	}
 
