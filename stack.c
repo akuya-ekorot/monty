@@ -35,6 +35,7 @@ void interpret(void)
 	instruction_t instructions[] = {
 		{"push", push},
 		{"pall", pall},
+		{"pint", pint},
 		{NULL, NULL},
 	};
 
@@ -47,7 +48,7 @@ void interpret(void)
 			if (strcmp(instructions[i].opcode, token) == 0)
 			{
 				found = 1;
-				if (strcmp(token, "pall"))
+				if (strcmp(token, "pall") && strcmp(token, "pint"))
 				{
 					token = strtok(NULL, " \n\t\r");
 					if (!token || !atoi(token))
@@ -57,13 +58,18 @@ void interpret(void)
 				instructions[i].f(&stack, node->line_number);
 			}
 			++i;
-			if (!found)
-				unkown_instruction(node, token);
 		}
+		if (!found)
+			unknown_instruction(node, token);
 	}
 }
 
-void unkown_instruction(queue_t *node, char *token)
+/**
+ * unknown_instruction - handle unknown instruction error
+ * @node: node with line number
+ * @token: the unknown instruction
+ */
+void unknown_instruction(queue_t *node, char *token)
 {
 	fprintf(stderr, "L%d: unkown instruction %s\n", node->line_number, token);
 	exit(EXIT_SUCCESS);
