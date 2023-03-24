@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -50,7 +51,19 @@ void interpret(void)
 				if (strcmp(token, "pall"))
 				{
 					token = strtok(NULL, " \n\t\r");
-					enqueue_values(atoi(token));
+					if (!token)
+					{
+						fprintf(stderr, "L%d: usage: push integer\n", node->line_number);
+						exit(EXIT_FAILURE);
+					}
+
+					if (atoi(token) || isdigit(token))
+						enqueue_values(atoi(token));
+					else
+					{
+						fprintf(stderr, "L%d: usage: push integer\n", node->line_number);
+						exit(EXIT_FAILURE);
+					}
 				}
 				instructions[i].f(&stack, node->line_number);
 			}
