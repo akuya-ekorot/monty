@@ -55,10 +55,12 @@ queue_t *deque(void);
 stack_t *deque_value(void);
 void enqueue_values(int);
 void interpret(void);
-void unkown_instruction(queue_t *node, char *token);
+void unknown_instruction(queue_t *node, char *token);
 
+void push_error(queue_t *);
 void push(stack_t **, unsigned int);
 void push_error(queue_t *);
 void pall(stack_t **, unsigned int);
+void pint(stack_t **, unsigned int);
 
 #endif /* monty_h */
