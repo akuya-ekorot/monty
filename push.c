@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include "monty.h"
 #include "externs.h"
@@ -20,4 +21,14 @@ void push(stack_t **stack, unsigned int line_number)
 		new->next->prev = new;
 
 	*stack = new;
+}
+
+/**
+ * push_error - handle errors from push instruction
+ * @node: current line in queue
+ */
+void push_error(queue_t *node)
+{
+	fprintf(stderr, "L%d: usage: push integer\n", node->line_number);
+	exit(EXIT_FAILURE);
 }

@@ -38,9 +38,7 @@ void interpret(void)
 		{NULL, NULL},
 	};
 
-	/* retrieve tokens */
-	node = deque();
-	while (node)
+	while ((node = deque()))
 	{
 		i = 0;
 		token = strtok(node->line, " \n\t\r");
@@ -51,24 +49,13 @@ void interpret(void)
 				if (strcmp(token, "pall"))
 				{
 					token = strtok(NULL, " \n\t\r");
-					if (!token)
-					{
-						fprintf(stderr, "L%d: usage: push integer\n", node->line_number);
-						exit(EXIT_FAILURE);
-					}
-
-					if (atoi(token) || isdigit(token))
-						enqueue_values(atoi(token));
-					else
-					{
-						fprintf(stderr, "L%d: usage: push integer\n", node->line_number);
-						exit(EXIT_FAILURE);
-					}
+					if (!token || !atoi(token))
+						push_error(node);
+					enqueue_values(atoi(token));
 				}
 				instructions[i].f(&stack, node->line_number);
 			}
 			++i;
 		}
-		node = deque();
 	}
 }

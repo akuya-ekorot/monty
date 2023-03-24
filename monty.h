@@ -57,6 +57,7 @@ void enqueue_values(int);
 void interpret(void);
 
 void push(stack_t **, unsigned int);
+void push_error(queue_t *);
 void pall(stack_t **, unsigned int);
 
 #endif /* monty_h */
