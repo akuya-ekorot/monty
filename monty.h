@@ -34,12 +34,19 @@ typedef struct instruction_s
 typedef struct queue_s
 {
 	char *line;
+	int line_number;
 	struct queue_s *prev;
 	struct queue_s *next;
 } queue_t;
 
-void enqueue(char *);
+void enqueue(char *, int);
 void print_queue(void);
-char *deque(void);
+queue_t *deque(void);
+stack_t *deque_value(void);
+void enqueue_values(int);
+void interpret(void);
+
+void push(stack_t **, unsigned int);
+void pall(stack_t **, unsigned int);
 
 #endif /* monty_h */

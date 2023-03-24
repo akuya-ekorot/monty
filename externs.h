@@ -5,5 +5,7 @@
 
 extern queue_t *queue;
 extern queue_t *queue_tail;
+extern stack_t *values;
+extern stack_t *values_tail;
 
 #endif

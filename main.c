@@ -1,3 +1,4 @@
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "externs.h"
@@ -11,6 +12,7 @@ int main(int ac, char **av)
 	FILE *file;
 	char *line = NULL;
 	size_t n = 0;
+	int line_number = 0;
 	ssize_t nread;
 
 	/* usage */
@@ -20,7 +22,7 @@ int main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 
-	/* file */
+	/* open file and add lines to queue */
 	file = fopen(av[1], "r");
 	if (!file)
 	{
@@ -30,16 +32,14 @@ int main(int ac, char **av)
 
 	while ((nread = getline(&line, &n, file)) != -1)
 	{
-		enqueue(line);
+		enqueue(line, ++line_number);
 		line = NULL;
 		n = 0;
 	}
 
+	interpret();
 	fclose(file);
-	if (line)
-		free(line);
-
-	print_queue();
+	line = NULL;
 
 	return (EXIT_SUCCESS);
 }
