@@ -4,6 +4,11 @@
 #include "externs.h"
 #include "monty.h"
 
+queue_t *queue = NULL;
+queue_t *queue_tail = NULL;
+stack_t *values = NULL;
+stack_t *values_tail = NULL;
+
 /**
  * main - monty bytecode interpreter
  * @ac: number of command line arguements
