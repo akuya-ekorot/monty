@@ -53,13 +53,18 @@ void enqueue(char *line, int line_number)
 	}
 	new->line = line;
 	new->line_number = line_number;
-	new->next = queue;
 
-	if (new->next)
-		new->next->prev = new;
-	queue = new;
-	if (!queue_tail)
-		queue_tail = queue;
+	if (queue)
+	{
+		new->next = queue;
+		queue->prev = new;
+		queue = new;
+	}
+	else
+	{
+		queue = new;
+		queue_tail = new;
+	}
 }
 
 /**
