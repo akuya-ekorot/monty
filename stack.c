@@ -43,24 +43,29 @@ void interpret(void)
 	{
 		i = 0, found = 0;
 		token = strtok(node->line, " \n\t\r");
-		while (instructions[i].opcode)
+		if (token)
 		{
-			if (strcmp(instructions[i].opcode, token) == 0)
+			while (instructions[i].opcode)
 			{
-				found = 1;
-				if (strcmp(token, "pall") && strcmp(token, "pint"))
+				if (strcmp(instructions[i].opcode, token) == 0)
 				{
-					token = strtok(NULL, " \n\t\r");
-					if (!token || !atoi(token))
-						push_error(node);
-					enqueue_values(atoi(token));
+					found = 1;
+					if (strcmp(token, "pall") && strcmp(token, "pint"))
+					{
+						token = strtok(NULL, " \n\t\r");
+						if (!token || !atoi(token))
+							push_error(node);
+						enqueue_values(atoi(token));
+					}
+					instructions[i].f(&stack, node->line_number);
 				}
-				instructions[i].f(&stack, node->line_number);
+				++i;
 			}
-			++i;
+			if (!found)
+				unknown_instruction(node, token);
 		}
-		if (!found)
-			unknown_instruction(node, token);
+		else
+			continue;
 	}
 }
 
