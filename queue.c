@@ -4,6 +4,37 @@
 #include "monty.h"
 
 /**
+ * free_queue - frees queue's mem
+ */
+void free_queue()
+{
+	queue_t *curr;
+
+	while (queue)
+	{
+		curr = queue;
+		queue = queue->next;
+		free(curr->line);
+		free(curr);
+	}
+}
+
+/**
+ * free_values - frees queue's mem
+ */
+void free_values()
+{
+	stack_t *curr;
+
+	while (values)
+	{
+		curr = values;
+		values = values->next;
+		free(curr);
+	}
+}
+
+/**
  * deque - returns tail node from queue
  * Return: last node
  */
@@ -15,6 +46,7 @@ queue_t *deque(void)
 		return (NULL);
 	node = queue_tail;
 	queue_tail = queue_tail->prev;
+
 	return (node);
 }
 
@@ -31,6 +63,7 @@ stack_t *deque_value(void)
 	node = values_tail;
 	values_tail = values_tail->prev;
 	node->prev = NULL;
+
 	return (node);
 }
 
@@ -52,6 +85,7 @@ void enqueue(char *line, int line_number)
 	new->line = line;
 	new->line_number = line_number;
 	new->next = queue;
+
 	if (new->next)
 		new->next->prev = new;
 	queue = new;

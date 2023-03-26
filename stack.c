@@ -107,6 +107,9 @@ void interpret(void)
 void unknown_instruction(queue_t *node, char *token)
 {
 	fprintf(stderr, "L%d: unkown instruction %s\n", node->line_number, token);
+	free(token);
+	free(node->line);
+	free(node);
 	exit(EXIT_FAILURE);
 }
 

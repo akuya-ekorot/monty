@@ -48,7 +48,10 @@ int main(int ac, char **av)
 
 	interpret();
 	fclose(file);
-	line = NULL;
+
+	free(line);
+	free_queue();
+	free_values();
 
 	return (EXIT_SUCCESS);
 }
