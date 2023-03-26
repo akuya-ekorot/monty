@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 #include "monty.h"
 #include "externs.h"
 
@@ -24,11 +25,43 @@ void print_stack(stack_t *stack)
 }
 
 /**
+ * check_instruction - checks for opcode and instruction
+ * @opcode: the opcode
+ * @token: the token
+ * @found: indicator for whether instructions is found
+ * @node: queue of file lines to work on
+ */
+static int check_instruction(char *opcode, char *token, queue_t **node)
+{
+	long num;
+	char *endptr;
+	errno = 0;
+
+	if (strcmp(opcode, token) == 0)
+	{
+		if (!(strcmp(token, "pall") == 0 || strcmp(token, "pint") == 0))
+		{
+			token = strtok(NULL, " \n\t\r");
+			if (!token)
+				push_error(*node);
+
+			num = strtol(token, &endptr, 10);
+			if (errno || *endptr)
+				push_error(*node);
+
+			enqueue_values((int)num);
+		}
+		return (1);
+	}
+	return (0);
+}
+
+/**
  * interpret - inteprets the lines in queue
  */
 void interpret(void)
 {
-	int i = 0, found;
+	int i, found;
 	char *token;
 	queue_t *node;
 	stack_t *stack = NULL;
@@ -43,31 +76,25 @@ void interpret(void)
 	{
 		i = 0, found = 0;
 		token = strtok(node->line, " \n\t\r");
-		if (token)
-		{
-			while (instructions[i].opcode)
-			{
-				if (strcmp(instructions[i].opcode, token) == 0)
-				{
-					found = 1;
-					if (strcmp(token, "pall") && strcmp(token, "pint"))
-					{
-						token = strtok(NULL, " \n\t\r");
-						if (!token || !atoi(token))
-							push_error(node);
-						enqueue_values(atoi(token));
-					}
-					instructions[i].f(&stack, node->line_number);
-				}
-				++i;
-			}
-			if (!found)
-				unknown_instruction(node, token);
-		}
-		else
+
+		if (!token)
 			continue;
+
+		while (instructions[i].opcode)
+		{
+			if((found = check_instruction(instructions[i].opcode, token, &node)))
+			{
+				instructions[i].f(&stack, node->line_number);
+				break;
+			}
+			++i;
+		}
+
+		if (!found)
+			unknown_instruction(node, token);
 	}
 }
+
 
 /**
  * unknown_instruction - handle unknown instruction error
@@ -77,6 +104,6 @@ void interpret(void)
 void unknown_instruction(queue_t *node, char *token)
 {
 	fprintf(stderr, "L%d: unkown instruction %s\n", node->line_number, token);
-	exit(EXIT_SUCCESS);
+	exit(EXIT_FAILURE);
 }
 
