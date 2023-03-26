@@ -28,15 +28,16 @@ void print_stack(stack_t *stack)
  * check_instruction - checks for opcode and instruction
  * @opcode: the opcode
  * @token: the token
- * @found: indicator for whether instructions is found
  * @node: queue of file lines to work on
+ *
+ * Return: 1 or 0
  */
 static int check_instruction(char *opcode, char *token, queue_t **node)
 {
 	long num;
 	char *endptr;
-	errno = 0;
 
+	errno = 0;
 	if (strcmp(opcode, token) == 0)
 	{
 		if (!(strcmp(token, "pall") == 0 || strcmp(token, "pint") == 0))
@@ -82,7 +83,9 @@ void interpret(void)
 
 		while (instructions[i].opcode)
 		{
-			if((found = check_instruction(instructions[i].opcode, token, &node)))
+			found = check_instruction(instructions[i].opcode, token, &node);
+
+			if (found)
 			{
 				instructions[i].f(&stack, node->line_number);
 				break;
