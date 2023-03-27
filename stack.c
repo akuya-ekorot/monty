@@ -40,6 +40,8 @@ static int check_instruction(char *opcode, char *token, queue_t **node)
 	errno = 0;
 	if (strcmp(opcode, token) == 0)
 	{
+		if (!strcmp(token, "pop"))
+			return (1);
 		if (!(strcmp(token, "pall") == 0 || strcmp(token, "pint") == 0))
 		{
 			token = strtok(NULL, " \n\t\r");
@@ -70,6 +72,7 @@ void interpret(void)
 		{"push", push},
 		{"pall", pall},
 		{"pint", pint},
+		{"pop", pop},
 		{NULL, NULL},
 	};
 
