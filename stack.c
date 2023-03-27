@@ -40,7 +40,7 @@ static int check_instruction(char *opcode, char *token, queue_t **node)
 	errno = 0;
 	if (strcmp(opcode, token) == 0)
 	{
-		if (!strcmp(token, "pop"))
+		if (!strcmp(token, "pop") || !strcmp(token, "swap"))
 			return (1);
 		if (!(strcmp(token, "pall") == 0 || strcmp(token, "pint") == 0))
 		{
@@ -73,6 +73,7 @@ void interpret(void)
 		{"pall", pall},
 		{"pint", pint},
 		{"pop", pop},
+		{"swap", swap},
 		{NULL, NULL},
 	};
 
@@ -83,11 +84,9 @@ void interpret(void)
 
 		if (!token)
 			continue;
-
 		while (instructions[i].opcode)
 		{
 			found = check_instruction(instructions[i].opcode, token, &node);
-
 			if (found)
 			{
 				instructions[i].f(&stack, node->line_number);
@@ -95,7 +94,6 @@ void interpret(void)
 			}
 			++i;
 		}
-
 		if (!found)
 			unknown_instruction(node, token);
 	}

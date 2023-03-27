@@ -63,6 +63,7 @@ void push_error(queue_t *);
 void pall(stack_t **, unsigned int);
 void pint(stack_t **, unsigned int);
 void pop(stack_t **, unsigned int);
+void swap(stack_t **stack, unsigned int line_number);
 
 void free_queue(void);
 void free_values(void);
